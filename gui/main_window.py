@@ -1,7 +1,8 @@
 import tkinter as tk
 from gui.widgets import create_widgets
-from gui.handlers import handle_start_tracking, handle_stop_tracking, handle_show_summary, handle_save_data, handle_load_data, handle_add_task
-from tracker import Tracker
+from gui.handlers.task_handlers import handle_start_tracking, handle_stop_tracking, handle_add_task
+from gui.handlers.time_handlers import handle_show_summary, handle_save_data, handle_load_data
+from models.tracker import Tracker
 
 class TimeTrackerApp:
     def __init__(self):
