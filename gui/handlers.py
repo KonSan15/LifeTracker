@@ -1,10 +1,10 @@
 from tracker import Tracker
-from trackable import Trackable  
+from trackable import Trackable
 
 def handle_start_tracking(app):
     selected = app.history_listbox.curselection()
     if selected:
-        name = app.history_listbox.get(selected[0])
+        name = app.history_listbox.get(selected[0]).split(' - ')[0]
     else:
         name = app.new_task_var.get()
     if name:
