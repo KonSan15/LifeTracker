@@ -21,6 +21,7 @@ def handle_stop_tracking(app):
         name = item_text.split(' - ')[0]  # Extract the name only
         message = app.tracker.stop_tracking(name)
         app.update_active_list()
+        app.update_history_list()  # Refresh the tracked programs list
     else:
         message = "Please select a task or skill to stop."
     app.show_info(message)

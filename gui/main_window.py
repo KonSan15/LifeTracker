@@ -16,6 +16,8 @@ class TimeTrackerApp:
         self.history_listbox = None
         self.summary_text = None
 
+        self.delete_key_pressed = False  # Track delete key state
+
         self.create_widgets()
         self.update_active_list()
         self.update_history_list()
@@ -33,6 +35,32 @@ class TimeTrackerApp:
         widgets['save_button'].config(command=lambda: handle_save_data(self))
         widgets['load_button'].config(command=lambda: handle_load_data(self))
         widgets['add_task_button'].config(command=lambda: handle_add_task(self))
+
+        self.root.bind('<Delete>', self.handle_delete_key)
+
+    def handle_delete_key(self, event):
+        if self.delete_key_pressed:
+            selected = self.active_listbox.curselection()
+            if selected:
+                item_text = self.active_listbox.get(selected[0])
+                name = item_text.split(' - ')[0]
+                del self.tracker.trackables[name]
+                self.update_active_list()
+                self.update_history_list()
+            else:
+                selected = self.history_listbox.curselection()
+                if selected:
+                    item_text = self.history_listbox.get(selected[0])
+                    name = item_text.split(' - ')[0]
+                    del self.tracker.trackables[name]
+                    self.update_history_list()
+            self.delete_key_pressed = False
+        else:
+            self.delete_key_pressed = True
+            self.root.after(1000, self.reset_delete_key)
+
+    def reset_delete_key(self):
+        self.delete_key_pressed = False
 
     def update_active_list(self):
         selected_indices = self.active_listbox.curselection()
